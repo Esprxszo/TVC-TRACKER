@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+    <header>
+        <div class="header-title">
+            <h2>ข้อมูลส่วนตัว</h2>
+            <button class="back-button" onclick="goBack()">ย้อนกลับ</button>
+        </div>
+    </header>
+    
+    <main>
+        <div class="profile-info">
+            <div class="profile-option">
+                <img src="user.jpg" alt="User Icon">
+                <p>ชื่อผู้ใช้: Crozsx</p>
+            </div>
+            <div class="profile-option">
+                <img src="change-password-icon.png" alt="Change Password Icon">
+                <p>เปลี่ยนรหัสผ่าน</p>
+                <span>สามารถเปลี่ยนรหัสผ่านได้ที่นี่</span>
+            </div>
+            <div class="profile-option">
+                <img src="history-icon.png" alt="History Icon">
+                <p>ประวัติเช็คชื่อทั้งหมด</p>
+                <span>ดูได้ที่นี่</span>
+            </div>
+            <div class="profile-option">
+                <img src="logout-icon.png" alt="Logout Icon">
+                <p>ออกจากระบบ</p>
+                <span>Good Bye</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function goBack() {
+            window.location.href = 'main.html';
+        }
+    </script>
+</body>
+</html>

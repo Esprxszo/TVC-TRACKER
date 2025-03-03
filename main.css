@@ -1,0 +1,255 @@
+body {
+    background-color: #ffffff;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+header, .banner, .announcement, .products {
+    animation: fadeIn 2s ease-in-out;
+    animation-fill-mode: both;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #414141;
+    position: relative;
+    z-index: 10;  /* Ensure the header is above other content */
+}
+
+header .logo img {
+    height: 40px;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    position: relative;
+    margin-right: 20px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px;
+    display: block;
+}
+
+header nav ul li a:hover {
+    background-color: #007bff;
+    border-radius: 5px;
+}
+
+header nav ul .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1f1f1f;
+    border-radius: 5px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    min-width: 200px;
+    z-index: 100;  /* Ensure the dropdown is above the banner */
+    top: 100%;
+    left: 0;
+}
+
+header nav ul .dropdown-content li {
+    margin: 0;
+}
+
+header nav ul .dropdown-content li a {
+    padding: 10px;
+    color: #ffffff;
+}
+
+header nav ul .dropdown-content li a:hover {
+    background-color: #007bff;
+    border-radius: 0;
+}
+
+header nav ul li.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+header .profile {
+    color: #bbb;
+}
+
+main {
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.banner {
+    position: relative;
+    text-align: center;
+    z-index: 0;  /* Ensure the banner is below the header and dropdown */
+}
+
+.banner img {
+    width: 30%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff;
+    text-shadow: 2px 2px 5px #000;
+}
+
+.banner-text h1 {
+    font-size: 36px;
+    margin: 0;
+}
+
+.banner-text p {
+    font-size: 18px;
+    margin: 0;
+}
+
+.announcement {
+    display: flex;
+    align-items: center;
+    background-color: #a8a8a8;
+    color: rgb(218, 25, 25);
+    padding: 10px;
+    border-radius: 5px;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.announcement button {
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.scrolling-text {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.scrolling-text p {
+    display: inline-block;
+    animation: scroll-left 10s linear infinite;
+}
+
+@keyframes scroll-left {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+/* สำหรับ Popup */
+.popup-overlay {
+    display: none; /* ซ่อนป๊อปอัปไว้ก่อน */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* พื้นหลังโปร่งแสง */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup-content {
+    background-color: #292929;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 400px;
+}
+
+.popup-content h2 {
+    margin-top: 0;
+}
+
+.popup-content button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+
+.menu {
+    display: flex;
+    justify-content: center; /* Center the items */
+    align-items: center;
+    background-color: #b1b1b1;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.card {
+    background-color: #494949;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    width: 200px; /* กำหนดความกว้างเท่ากัน */
+    height: 150px; /* กำหนดความสูงให้เท่ากัน */
+    border-radius: 10px;
+    margin: 10px; /* เพิ่ม margin รอบๆ เพื่อให้ดูสวยงาม */
+    display: flex; /* ใช้ Flexbox */
+    flex-direction: column; /* เรียงเนื้อหาภายใน card เป็นแนวตั้ง */
+    justify-content: space-between; /* กระจายพื้นที่ระหว่างเนื้อหา */
+    align-items: center; /* จัดตรงกลาง */
+}
+
+.card img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 18px;
+    margin: 0 0 10px; /* เพิ่มระยะห่างเล็กน้อยจากข้อความก่อนหน้า */
+}
+
+.card button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แผนกออกแบบ.2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input[type="date"], input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            background-color: #6fc5ff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: auto;
+            text-align: center;
+        }
+
+    .back-button:hover {
+            background-color: #555;
+}
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="history.back()">ย้อนกลับ</button>
+    <div class="container">
+        <h1>เช็คชื่อนักศึกษา แผนกออกแบบ.2</h1>
+
+        <label for="date">เลือกวันที่:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="clubName">ชื่อกิจกรรมชมรม:</label>
+        <input type="text" id="clubName" name="clubName" placeholder="กรอกชื่อกิจกรรมชมรมที่นี่" required>
+
+        <label for="comment">ข้อสังเกตหรือความคิดเห็น:</label>
+        <textarea id="comment" name="comment" placeholder="เขียนข้อสังเกตหรือความคิดเห็นที่นี่..."></textarea>
+
+
+        <form id="attendance-form">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>มา</th>
+                        <th>ลา</th>
+                        <th>ขาด</th>
+                    </tr>
+                </thead>
+                <tbody id="student-list">
+                    <!-- รายชื่อนักเรียนจะถูกแสดงที่นี่ -->
+                </tbody>
+            </table>
+
+            <br>
+            <button type="button" onclick="validateAndSubmit()">Submit</button>        
+        </form>
+    </div>
+
+    <script>
+        const students = [
+    "นายณัฐพล  รอดบุญเสริม",
+    "นายณัฐวุฒิ  เลิศนพสกุล",
+    "นายดิศรณ์  มานะกิจรุจี",
+    "นายธนพล  อึ้งเจริญ",
+    "นายธนายง  ชนะสงคราม",
+    "นายนพธรรม  ฤกษ์ยินดี",
+    "นายปิยะพล  เมฆขุนทด",
+    "นายพิพัฒน์  คำอยู่",
+    "นายภัทรภร  สายตนันท์",
+    "นางสาววรินยา  วงศ์เสือ",
+    "นายศุทธวีร์  แก้วเหลี่ยม",
+    "นายอภิเดช  ทองสุข",
+    "นางสาวคีตภัทร์  ชะโลมกลาง",
+    "นางสาวจิตตินันท์  หมายมุ่ง",
+    "นางสาวจุฑารัตน์  อัปปะติกานัง",
+    "นางสาวชญานิษฐ์  กุลอนรรฆพันธุ์",
+    "นางสาวณัฎฐกานต์  ตุลย์สอน",
+    "นางสาวณัฐพร  ชูประวัติ",
+    "นางสาวนันท์นภัส  วิกรัยพัฒน์",
+    "นางสาวปัญญากร  คล้อยตามวงศ์",
+    "นางสาวพรหมพร  คงอิ่ม",
+    "นางสาวพิจิตรตรา  เภาอ้วน",
+    "นางสาวพิชญาภา  นวลมุสิงห์",
+    "นางสาวฟ้า  กลิ่นอบเชย",
+    "นางสาวฟิล์ม  กลิ่นอบเชย",
+    "นางสาวภวรัญชน์  เฉลิมฐานะ",
+    "นางสาวรุ้งขจี  บัวจีบ",
+    "นายวีระกร  โสดแก้ว",
+    "นายสิทธิภาคย์  ศรีแก้ว",
+    "นายณภัทร  เหมือนบางซื่อ",
+    "นายปรัชญา  พร้อมมูล",
+    "นายทิวากร  ศิริโสภณ",
+    "นางสาวอธิชา  ดวงจันทร์",
+    "นางสาวกีรนันท์  เย็นท่าข้าม",
+    "นางสาวณัฑริกา  จารุพินธ์"
+];
+
+
+    window.onload = function() {
+            const studentList = document.getElementById('student-list');
+
+            students.forEach((student, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${student}</td>
+                    <td><input type="radio" name="attendance${index}" value="มา" required></td>
+                    <td><input type="radio" name="attendance${index}" value="ลา"></td>
+                    <td><input type="radio" name="attendance${index}" value="ขาด"></td>
+                `;
+                studentList.appendChild(row);
+            });
+        };
+
+        function downloadFile(data, filename) {
+            const blob = new Blob([data], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        function validateAndSubmit() {
+            const date = document.getElementById('date').value;
+            const clubName = document.getElementById('clubName').value.trim();
+            const comment = document.getElementById('comment').value;
+
+            if (!date || !clubName) {
+                alert('กรุณากรอกข้อมูลวันที่และชื่อชมรมให้ครบถ้วน!');
+                return;
+            }
+
+            const attendanceData = students.map((student, index) => {
+                const attendance = document.querySelector(`input[name="attendance${index}"]:checked`);
+                return {
+                    student,
+                    status: attendance ? attendance.value : "มา"
+                };
+            });
+
+            const allData = {
+                date,
+                clubName,
+                comment,
+                attendance: attendanceData
+            };
+
+            const formattedData = `
+แผนก: แผนกออกแบบ ปวช.2
+วันที่: ${allData.date}
+ชื่อชมรม: ${allData.clubName}
+ความคิดเห็น: ${allData.comment}
+
+การเช็คชื่อ:
+${allData.attendance.map(a => `- ${a.student}: ${a.status}`).join('\n')}
+            `;
+
+            const sanitizedClubName = clubName.replace(/\s+/g, '_');
+            const filename = `${sanitizedClubName}_${date}.txt`;
+
+            downloadFile(formattedData, filename);
+            alert('บันทึกข้อมูลสำเร็จ!');
+        }
+    </script>
+</body>
+</html>

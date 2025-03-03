@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ผลการเช็คชื่อ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        button {
+            background-color: #ff4d4d;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #ff3333;
+        }
+
+        .delete-button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .delete-button:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ผลการเช็คชื่อ</h1>
+
+        <div id="result">
+            <!-- ผลลัพธ์จะแสดงที่นี่ -->
+        </div>
+    </div>
+
+    <script>
+        // ดึงข้อมูลทั้งหมดจาก localStorage
+        let allData = JSON.parse(localStorage.getItem('attendanceRecords'));
+
+        // แสดงผลข้อมูลการเช็คชื่อทั้งหมด
+        function displayData() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = ''; // ล้างเนื้อหาก่อนแสดงใหม่
+
+            if (allData && allData.length > 0) {
+                allData.forEach((record, index) => {
+                    let recordDiv = document.createElement('div');
+                    recordDiv.innerHTML = `
+                        <h3>เช็คชื่อรอบที่ ${index + 1}</h3>
+                        <h4>วันที่: ${record.date}</h4>
+                        ${record.attendance.map(item => `<p>${item.student}: ${item.status}</p>`).join('')}
+                        <h4>ความคิดเห็นเพิ่มเติม:</h4><p>${record.comment}</p>
+                        <button class="delete-button" onclick="deleteRecord(${index})">ลบประวัติรอบนี้</button>
+                        <hr>
+                    `;
+                    resultDiv.appendChild(recordDiv);
+                });
+            } else {
+                resultDiv.innerHTML = '<p>ไม่มีข้อมูลที่จะแสดง</p>';
+            }
+        }
+
+        // ฟังก์ชันลบประวัติการเช็คชื่อ
+        function deleteRecord(index) {
+            if (confirm('คุณต้องการลบประวัติการเช็คชื่อรอบนี้หรือไม่?')) {
+                // ลบข้อมูลตาม index ที่ระบุ
+                allData.splice(index, 1);
+                // บันทึกข้อมูลที่เหลือกลับลงใน localStorage
+                localStorage.setItem('attendanceRecords', JSON.stringify(allData));
+                // รีเฟรชการแสดงผล
+                displayData();
+            }
+        }
+
+        // เรียกใช้ฟังก์ชันเพื่อแสดงข้อมูลเมื่อหน้าเว็บถูกโหลด
+        window.onload = displayData;
+    </script>
+</body>
+</html>
